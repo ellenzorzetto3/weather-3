@@ -53,30 +53,43 @@ function handleSearchSubmit(event) {
 
   searchCity(searchInput.value);
 }
+function formatDate(timeStamp) {
+  let date = new Date(timeStamp * 1000);
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[date.getDay()];
+}
 
 function getForecast(city) {
   let apiKey = "o3bfb209f55e8951210f40e6476fat3f";
-  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}}`;
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
   axios.get(apiUrl).then(displayForecast);
 }
 
 function displayForecast(response) {
   console.log(response.data);
 
-  let weekDays = ["Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   let forecastHtml = "";
 
-  weekDays.forEach(function (day) {
-    forecastHtml =
-      forecastHtml +
-      `<div class="forecastDate">
-            <div class="forecastDay">${day}</div>
-            <div class="forecastEmoji">😍</div>
+  response.data.daily.forEach(function (day, index) {
+    if (index < 5) {
+      forecastHtml =
+        forecastHtml +
+        `<div class="forecastDate">
+            <div class="forecastDay">${formatDate(day.time)}</div>
+            <div class="forecastEmoji"> <img src="${
+              day.condition.icon_url
+            }" class="weather-forecast-icon" /></div>
             <div class="forecastTemp">
-              <span class="forecastTemps">14º </span
-              ><span class="forecastTemps">9º</span> 
+              <span class="forecastTemps">${Math.round(
+                day.temperature.maximum
+              )}º </span
+              ><span class="forecastTemps">${Math.round(
+                day.temperature.minimum
+              )}º</span> 
             </div>
         </div>`;
+    }
   });
 
   let forecast = document.querySelector("#forecast");
@@ -86,4 +99,4 @@ function displayForecast(response) {
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
-searchCity("Paris");
+searchCity("Brasília");
