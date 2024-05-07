@@ -53,7 +53,7 @@ function handleSearchSubmit(event) {
 
   searchCity(searchInput.value);
 }
-function formatDate(timeStamp) {
+function formatDate2(timeStamp) {
   let date = new Date(timeStamp * 1000);
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -76,7 +76,7 @@ function displayForecast(response) {
       forecastHtml =
         forecastHtml +
         `<div class="forecastDate">
-            <div class="forecastDay">${formatDate(day.time)}</div>
+            <div class="forecastDay">${formatDate2(day.time)}</div>
             <div class="forecastEmoji"> <img src="${
               day.condition.icon_url
             }" class="weather-forecast-icon" /></div>
